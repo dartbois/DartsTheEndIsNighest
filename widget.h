@@ -17,6 +17,8 @@ public:
     int score = 0;
     int dartNumber;
     bool validateState;
+    QList<QPieSlice *> doubleSlices;
+    bool slingIsDouble;
 
 public slots:
     void addScore();
@@ -34,6 +36,7 @@ public slots:
 private:
     QList<QPieSeries *> m_donuts;
     QList<QPieSlice *> m_slices;
+
     QList<QPieSlice *> outerSlices;
     QWidget* theParent;
     QLabel *scoreDisplayer;
