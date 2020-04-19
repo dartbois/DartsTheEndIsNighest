@@ -188,6 +188,7 @@ void ScorerView::set_SlingOneText(int score)
     currentThrow->clear();
     currentThrow->append(SlingOneText->text());
     currentThrowLabel->setText(*currentThrow);
+    throwDoub[0] = scorerDartboard->slingIsDouble;
 }
 
 void ScorerView::set_SlingTwoText(int score)
@@ -196,6 +197,7 @@ void ScorerView::set_SlingTwoText(int score)
     currentThrow->append('\t');
     currentThrow->append(SlingTwoText->text());
     currentThrowLabel->setText(*currentThrow);
+    throwDoub[1] = scorerDartboard->slingIsDouble;
 }
 
 void ScorerView::set_SlingThreeText(int score)
@@ -204,12 +206,14 @@ void ScorerView::set_SlingThreeText(int score)
     currentThrow->append('\t');
     currentThrow->append(SlingThreeText->text());
     currentThrowLabel->setText(*currentThrow);
+    throwDoub[2] = scorerDartboard->slingIsDouble;
 }
 
 void ScorerView::on_ValadationYes_clicked()
 {
     int winner = 0;
     int slingInt = 0;
+    bool goodThrow = false;
     QString slingHolder = "";
 
     //code to get values from slings 1, 2, 3
@@ -229,10 +233,33 @@ void ScorerView::on_ValadationYes_clicked()
         myP.p1Slings.append(slingHolder);
         myP.p1Slings.append("/t");
 
-        if (slingInt == 180) {
-            myP.playerMatch180s[0] = myP.playerMatch180s[0] + 1;
+        //if this match brings the player to 0
+        if (myM.currentScore[0] - slingInt == 0){
+            //if sling 3 is not null
+            if (SlingThreeText->text() != NULL){
+                //if sling 3 is a double
+                if (throwDoub[2] == true){
+                    goodThrow = true;
+                }
+            } //else if sling 2 is not null
+            else if (SlingTwoText != NULL) {
+                //if sling 2 is a double
+                if (throwDoub[1] == true){
+                    goodThrow = true;
+                }
+            } //else if sling 1 is the only one
+            else {
+                if (throwDoub[0] == true){
+                    goodThrow = true;
+                }
+            }
         }
-        winner = myM.scoreSubtract(0, slingInt);
+        else if (!(myM.currentScore[0] - slingInt == 1)) {
+            goodThrow = true;
+        }
+        if (goodThrow == true){
+            winner = myM.scoreSubtract(0, slingInt);
+        }
     }
     else { //if myP.active is true, player2 is active
         slingHolder = SlingOneText->text();
@@ -253,9 +280,37 @@ void ScorerView::on_ValadationYes_clicked()
         if (slingInt == 180) {
             myP.playerMatch180s[1] = myP.playerMatch180s[1] + 1;
         }
-        winner = myM.scoreSubtract(1, slingInt);
+        //if this match brings the player to 0
+        if (myM.currentScore[1] - slingInt == 0){
+            //if sling 3 is not null
+            if (SlingThreeText->text() != NULL){
+                //if sling 3 is a double
+                if (throwDoub[2] == true){
+                    goodThrow = true;
+                }
+            } //else if sling 2 is not null
+            else if (SlingTwoText != NULL) {
+                //if sling 2 is a double
+                if (throwDoub[1] == true){
+                    goodThrow = true;
+                }
+            } //else if sling 1 is the only one
+            else {
+                if (throwDoub[0] == true){
+                    goodThrow = true;
+                }
+            }
+        }
+        else if (!(myM.currentScore[1] - slingInt == 1)) {
+            goodThrow = true;
+        }
+        if (goodThrow == true){
+            winner = myM.scoreSubtract(1, slingInt);
+        }
+        scorerDartboard->dartNumber = 0;
     }
 
+    scorerDartboard->dartNumber = 0;
     emit sendValidateTrue(false);    //sending false will unblock the scoring
     //Show the validated throw on the current throw
     lastThrow->clear();
@@ -272,22 +327,6 @@ void ScorerView::on_ValadationYes_clicked()
     SlingOneText->clear();
     SlingTwoText->clear();
     SlingThreeText->clear();
-
-    if (winner < 2){ //if there was a winner for this leg, send it to legWinner.
-        if (winner == 0){
-            legWinner(myP.active);
-        }
-        else if (winner == 1){
-            legWinner(!(myP.active));
-        }
-        //legWinner(winner);
-    }
-    else{
-        //Otherwise, we go to the next leg. Not sure how to implement this exactly.
-        //flips a boolean value which controls which player is being affected by all this
-        myP.active = !(myP.active);
-        qDebug() << "The bool is: " << myP.active;
-    }
 
     int currentPlayerInt = 0;
 
@@ -307,6 +346,22 @@ void ScorerView::on_ValadationYes_clicked()
     }
     else{
          emit sendP2Prediction(currentPlayerPrediction);
+    }
+
+    if (winner < 2){ //if there was a winner for this leg, send it to legWinner.
+        if (winner == 0){
+            legWinner(myP.active);
+        }
+        else if (winner == 1){
+            legWinner(!(myP.active));
+        }
+        //legWinner(winner);
+    }
+    else{
+        //Otherwise, we go to the next leg. Not sure how to implement this exactly.
+        //flips a boolean value which controls which player is being affected by all this
+        myP.active = !(myP.active);
+        qDebug() << "The bool is: " << myP.active;
     }
 
     //Clearing the labels forces them to update the text
@@ -330,6 +385,8 @@ void ScorerView::on_ValadationNo_clicked()
     SlingThreeText->clear();
     currentThrowLabel->clear();
     currentThrow->clear();
+    this->repaint();
+    scorerDartboard->dartNumber = 0;
     emit sendValidateTrue(false);    //sending false will unblock the scoring
 }
 
