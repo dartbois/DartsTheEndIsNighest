@@ -273,22 +273,6 @@ void ScorerView::on_ValadationYes_clicked()
     SlingTwoText->clear();
     SlingThreeText->clear();
 
-    if (winner < 2){ //if there was a winner for this leg, send it to legWinner.
-        if (winner == 0){
-            legWinner(myP.active);
-        }
-        else if (winner == 1){
-            legWinner(!(myP.active));
-        }
-        //legWinner(winner);
-    }
-    else{
-        //Otherwise, we go to the next leg. Not sure how to implement this exactly.
-        //flips a boolean value which controls which player is being affected by all this
-        myP.active = !(myP.active);
-        qDebug() << "The bool is: " << myP.active;
-    }
-
     int currentPlayerInt = 0;
 
     if(myP.active == false){
@@ -308,6 +292,24 @@ void ScorerView::on_ValadationYes_clicked()
     else{
          emit sendP2Prediction(currentPlayerPrediction);
     }
+
+    if (winner < 2){ //if there was a winner for this leg, send it to legWinner.
+        if (winner == 0){
+            legWinner(myP.active);
+        }
+        else if (winner == 1){
+            legWinner(!(myP.active));
+        }
+        //legWinner(winner);
+    }
+    else{
+        //Otherwise, we go to the next leg. Not sure how to implement this exactly.
+        //flips a boolean value which controls which player is being affected by all this
+        myP.active = !(myP.active);
+        qDebug() << "The bool is: " << myP.active;
+    }
+
+
 
     //Clearing the labels forces them to update the text
     emit sendP1CurrentScoreUndo();
