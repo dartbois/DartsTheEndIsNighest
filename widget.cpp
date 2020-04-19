@@ -9,7 +9,7 @@
 #include <QtCore/QTimer>
 #include <QCursor>
 #include <QDebug>
-
+#include <QMetaMethod>
 #include "scorerview.h"
 
 
@@ -31,7 +31,7 @@ Widget::Widget(QWidget *parent)
     Widget::scoreDisplayer->setVisible(false);
     validateState = true;
     slingIsDouble = false;
-
+    counter = 0;
     //! [1]
 
     //
@@ -326,6 +326,9 @@ void Widget::validationBlocker(bool blockForValidation)
     }
     if (blockForValidation == false)
     {
+        disconnect(this, SIGNAL(scoreSignalOne(int)), theParent, SLOT(set_SlingOneText(int)));
+        disconnect(this, SIGNAL(scoreSignalTwo(int)), theParent, SLOT(set_SlingTwoText(int)));
+        disconnect(this, SIGNAL(scoreSignalThree(int)), theParent, SLOT(set_SlingThreeText(int)));
         connect(this, SIGNAL(scoreSignalOne(int)), theParent, SLOT(set_SlingOneText(int)));
         connect(this, SIGNAL(scoreSignalTwo(int)), theParent, SLOT(set_SlingTwoText(int)));
         connect(this, SIGNAL(scoreSignalThree(int)), theParent, SLOT(set_SlingThreeText(int)));
@@ -351,10 +354,12 @@ void Widget::mirrorDart(int i)
         if(dartboard->m_slices[j]->isLabelVisible())
         {
             this->m_slices[j]->setLabelVisible(true);
+            this->m_slices[j]->setLabelPosition(this->m_slices[j]->LabelInsideHorizontal);
         }
         else
         {
             this->m_slices[j]->setLabelVisible(false);
+            this->m_slices[j]->setLabelPosition(this->m_slices[j]->LabelInsideHorizontal);
         }
     }
 }
