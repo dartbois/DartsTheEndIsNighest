@@ -5,21 +5,21 @@
 mathClass::mathClass(int scoreStart)
 {
     currentScore[0] = scoreStart, currentScore[1] = scoreStart;
-    /*legWins[0] = 0;
-    legWins[1] = 1;
+    legWins[0] = 0;
+    legWins[1] = 0;
     matchWins[0] = 0;
     matchWins[1] = 0;
     matchesHeld = 0;
-    ties = 0;*/
+    ties = 0;
 };
 
 mathClass::mathClass(){
-    /*legWins[0] = 0;
-    legWins[1] = 1;
+    legWins[0] = 0;
+    legWins[1] = 0;
     matchWins[0] = 0;
     matchWins[1] = 0;
     matchesHeld = 0;
-    ties = 0;*/
+    ties = 0;
 }
 
 string mathClass::winnerCalc(){

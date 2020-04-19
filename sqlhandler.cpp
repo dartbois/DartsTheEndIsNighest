@@ -378,12 +378,13 @@ string sqlHandler::sqlGetGameList() {
 }
 
 //Setter: needs to set final player info into SQLite
-void sqlHandler::sqlSetPlayerFinal(int playerID, player Player) {
+void sqlHandler::sqlSetPlayerFinal(player Player) {
     QSqlQuery query;
 
-    int rank, lastwin, tshi, tslo, played, won;
+    int rank, lastwin, tshi, tslo, played, won, playerID;
     float a180, a180s, athrow, athrows;
 
+    playerID = Player.playerIDs[0];
     rank = Player.playerRanking[0];
     a180 = Player.playerAvg180s[0];
     a180s = Player.playerAvg180Season[0];
@@ -394,6 +395,34 @@ void sqlHandler::sqlSetPlayerFinal(int playerID, player Player) {
     tslo = Player.playerTurnScoreLo[0];
     played = Player.playerGamesPlayed[0];
     won = Player.playerGamesWon[0];
+
+    query.prepare("UPDATE players SET Ranking = ?, [Avg 180s] = ?, [Avg 180s (Season)] = ?, [Last Game Win] = ?, [Avg Throw Score] = ?, [Avg Throw Score (Season)] = ?, [Turn Score High] = ?, [Turn Score Low] = ?, [Num Games Played] = ?, [Num Games Won] = ? WHERE [Player ID] = ?");
+    query.bindValue(0, rank);
+    query.bindValue(1, a180);
+    query.bindValue(2, a180s);
+    query.bindValue(3, lastwin);
+    query.bindValue(4, athrow);
+    query.bindValue(5, athrows);
+    query.bindValue(6, tshi);
+    query.bindValue(7, tslo);
+    query.bindValue(8, played);
+    query.bindValue(9, won);
+    query.bindValue(10, playerID);
+
+    query.exec();
+    query.first();
+
+    playerID = Player.playerIDs[1];
+    rank = Player.playerRanking[1];
+    a180 = Player.playerAvg180s[1];
+    a180s = Player.playerAvg180Season[1];
+    lastwin = Player.playerLastWin[1];
+    athrow = Player.playerAvgThrow[1];
+    athrows = Player.playerAvg180Season[1];
+    tshi = Player.playerTurnScoreHi[1];
+    tslo = Player.playerTurnScoreLo[1];
+    played = Player.playerGamesPlayed[1];
+    won = Player.playerGamesWon[1];
 
     query.prepare("UPDATE players SET Ranking = ?, [Avg 180s] = ?, [Avg 180s (Season)] = ?, [Last Game Win] = ?, [Avg Throw Score] = ?, [Avg Throw Score (Season)] = ?, [Turn Score High] = ?, [Turn Score Low] = ?, [Num Games Played] = ?, [Num Games Won] = ? WHERE [Player ID] = ?");
     query.bindValue(0, rank);

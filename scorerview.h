@@ -168,6 +168,10 @@ public:
     Widget* audienceDartboard;
     Widget* scorerDartboard;
     bool throwDoub[3];
+
+private:
+    void createList(int pID, int roundType); //pID is 0, 1; roundType is 0 (normal), 1 (failed throw)
+    QStringList formedThrows1, formedThrows2;
 };
 
 #endif // SCORERVIEW_H
