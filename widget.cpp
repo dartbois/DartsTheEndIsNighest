@@ -31,6 +31,7 @@ Widget::Widget(QWidget *parent)
     Widget::scoreDisplayer->setVisible(false);
     validateState = true;
     slingIsDouble = false;
+
     //! [1]
 
     //
@@ -279,9 +280,7 @@ void Widget::addScore()
 {
     QPieSlice *slice = qobject_cast<QPieSlice *>(sender());
     Widget::scoreDisplayer->clear();
-//    QString scoreString = "Score: ";
-//    scoreString.append(QString::number(this->score));
-//    Widget::scoreDisplayer->setText(scoreString);
+
     if(validateState == true)
     {
         for(int i = 0; i < doubleSlices.size(); i++)

@@ -167,6 +167,7 @@ public:
     AudienceView* m_audienceWindow;
     Widget* audienceDartboard;
     Widget* scorerDartboard;
+    bool throwDoub[3];
 };
 
 #endif // SCORERVIEW_H

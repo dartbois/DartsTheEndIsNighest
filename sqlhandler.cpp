@@ -586,7 +586,7 @@ void sqlHandler::sqlUpdateGame(int gameID, int newGID, MatchStartData game){
     p1 = game.gamePs[0];
     p2 = game.gamePs[1];
 
-    query.prepare("UPDATE Games SET [Game ID] = ?, [Game Name] = ?, [Date] = ?, [Location] = ?, [Start Score] = ?, [Max # Matches] = ?, [Max # Legs] = ?, [Player1] = ?, [Player2] = ? WHERE [Game ID] = ?");
+    query.prepare("UPDATE Games SET [Game ID] = ?, [Game Name] = ?, Date = ?, Location = ?, [Start Score] = ?, [Max # Matches] = ?, [Max # Legs] = ?, Player1 = ?, Player2 = ?, WHERE [Game ID] = ?");
     query.bindValue(0, newGID);
     query.bindValue(1, Qname);
     query.bindValue(2, Qdate);

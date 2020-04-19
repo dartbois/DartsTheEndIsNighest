@@ -36,6 +36,7 @@ public slots:
 private:
     QList<QPieSeries *> m_donuts;
     QList<QPieSlice *> m_slices;
+
     QList<QPieSlice *> outerSlices;
     QWidget* theParent;
     QLabel *scoreDisplayer;
