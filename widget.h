@@ -17,6 +17,8 @@ public:
     int score = 0;
     int dartNumber;
     bool validateState;
+    QList<QPieSlice *> doubleSlices;
+    bool slingIsDouble;
 
 public slots:
     void addScore();
