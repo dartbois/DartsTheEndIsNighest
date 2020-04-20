@@ -10,6 +10,7 @@
 #include <QCursor>
 #include <QDebug>
 
+#include <QMetaMethod>
 #include "scorerview.h"
 
 
@@ -30,6 +31,8 @@ Widget::Widget(QWidget *parent)
     scoreDisplayer = new QLabel(scoreString, chartView);
     Widget::scoreDisplayer->setVisible(false);
     validateState = true;
+    slingIsDouble = false;
+    counter = 0;
     //! [1]
 
     //
@@ -198,6 +201,8 @@ Widget::Widget(QWidget *parent)
             }
             if(i == 3)
             {
+                slice->setValue(2); //2 is for doubles
+                this->doubleSlices.append(slice);
                 slice->setLabel(QString::number(slice->label().toInt() * 2));
                 donut->setHoleSize(donut->holeSize() * 1.05);
                 donut->setPieSize(donut->pieSize() * 0.9);
@@ -225,6 +230,7 @@ Widget::Widget(QWidget *parent)
     innerBullseye->setHoleSize(0);
     innerBullseye->setPieSize(0.025);
     innerBullseye->append(slice);
+    this->doubleSlices.append(slice);
 
     //create outer bullseye
     QPieSeries *outerBullseye = new QPieSeries;
@@ -280,6 +286,18 @@ void Widget::addScore()
 //    Widget::scoreDisplayer->setText(scoreString);
     if(validateState == true)
     {
+        for(int i = 0; i < doubleSlices.size(); i++)
+        {
+            if(slice == doubleSlices[i])
+            {
+                slingIsDouble = true;
+                break;
+            }
+            else
+            {
+                slingIsDouble = false;
+            }
+        }
         this->score = slice->label().toInt();
         slice->setLabelVisible(true);
         slice->setLabelPosition(slice->LabelInsideHorizontal);
@@ -311,6 +329,9 @@ void Widget::validationBlocker(bool blockForValidation)
     }
     if (blockForValidation == false)
     {
+        disconnect(this, SIGNAL(scoreSignalOne(int)), theParent, SLOT(set_SlingOneText(int)));
+        disconnect(this, SIGNAL(scoreSignalTwo(int)), theParent, SLOT(set_SlingTwoText(int)));
+        disconnect(this, SIGNAL(scoreSignalThree(int)), theParent, SLOT(set_SlingThreeText(int)));
         connect(this, SIGNAL(scoreSignalOne(int)), theParent, SLOT(set_SlingOneText(int)));
         connect(this, SIGNAL(scoreSignalTwo(int)), theParent, SLOT(set_SlingTwoText(int)));
         connect(this, SIGNAL(scoreSignalThree(int)), theParent, SLOT(set_SlingThreeText(int)));
@@ -336,10 +357,12 @@ void Widget::mirrorDart(int i)
         if(dartboard->m_slices[j]->isLabelVisible())
         {
             this->m_slices[j]->setLabelVisible(true);
+            this->m_slices[j]->setLabelPosition(this->m_slices[j]->LabelInsideHorizontal);
         }
         else
         {
             this->m_slices[j]->setLabelVisible(false);
+            this->m_slices[j]->setLabelPosition(this->m_slices[j]->LabelInsideHorizontal);
         }
     }
 }
