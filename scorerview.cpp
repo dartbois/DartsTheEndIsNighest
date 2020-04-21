@@ -3,6 +3,8 @@
 #include "audienceview.h"
 #include <String>
 #include <QDebug>
+#include <QDir>
+#include "sqlhandler.h"
 
 
 ScorerView::ScorerView(AudienceView *audienceWindow) :
@@ -24,6 +26,7 @@ ScorerView::ScorerView(AudienceView *audienceWindow) :
     audienceDartboard = audienceWindow->audienceDartboard;
     this->scorerDartboard = this->ui->widget;
     m_audienceWindow = audienceWindow;
+    this->ui->PlayerOneScore->setFrameStyle(1);
 
     //connect the show stats signals to the audience window slots
    connect(this, &ScorerView::sendPlayerOneStats, audienceWindow, &AudienceView::setPlayerOneStatsText);
@@ -188,6 +191,7 @@ void ScorerView::set_SlingOneText(int score)
     currentThrow->clear();
     currentThrow->append(SlingOneText->text());
     currentThrowLabel->setText(*currentThrow);
+    throwDoub[0] = scorerDartboard->slingIsDouble;
 }
 
 void ScorerView::set_SlingTwoText(int score)
@@ -196,6 +200,7 @@ void ScorerView::set_SlingTwoText(int score)
     currentThrow->append('\t');
     currentThrow->append(SlingTwoText->text());
     currentThrowLabel->setText(*currentThrow);
+    throwDoub[1] = scorerDartboard->slingIsDouble;
 }
 
 void ScorerView::set_SlingThreeText(int score)
@@ -204,12 +209,14 @@ void ScorerView::set_SlingThreeText(int score)
     currentThrow->append('\t');
     currentThrow->append(SlingThreeText->text());
     currentThrowLabel->setText(*currentThrow);
+    throwDoub[2] = scorerDartboard->slingIsDouble;
 }
 
 void ScorerView::on_ValadationYes_clicked()
 {
     int winner = 0;
     int slingInt = 0;
+    bool goodThrow = false;
     QString slingHolder = "";
 
     //code to get values from slings 1, 2, 3
@@ -229,10 +236,37 @@ void ScorerView::on_ValadationYes_clicked()
         myP.p1Slings.append(slingHolder);
         myP.p1Slings.append("/t");
 
-        if (slingInt == 180) {
-            myP.playerMatch180s[0] = myP.playerMatch180s[0] + 1;
+        //if this match brings the player to 0
+        if (myM.currentScore[0] - slingInt == 0){
+            //if sling 3 is not null
+            if (SlingThreeText->text() != NULL){
+                //if sling 3 is a double
+                if (throwDoub[2] == true){
+                    goodThrow = true;
+                }
+            } //else if sling 2 is not null
+            else if (SlingTwoText != NULL) {
+                //if sling 2 is a double
+                if (throwDoub[1] == true){
+                    goodThrow = true;
+                }
+            } //else if sling 1 is the only one
+            else {
+                if (throwDoub[0] == true){
+                    goodThrow = true;
+                }
+            }
         }
-        winner = myM.scoreSubtract(0, slingInt);
+        else if (!(myM.currentScore[0] - slingInt == 1)) {
+            goodThrow = true;
+        }
+        if (goodThrow == true){
+            winner = myM.scoreSubtract(0, slingInt);
+            createList(0, 0);
+        }
+        else {
+            createList(0, 1);
+        }
     }
     else { //if myP.active is true, player2 is active
         slingHolder = SlingOneText->text();
@@ -253,9 +287,41 @@ void ScorerView::on_ValadationYes_clicked()
         if (slingInt == 180) {
             myP.playerMatch180s[1] = myP.playerMatch180s[1] + 1;
         }
-        winner = myM.scoreSubtract(1, slingInt);
+        //if this match brings the player to 0
+        if (myM.currentScore[1] - slingInt == 0){
+            //if sling 3 is not null
+            if (SlingThreeText->text() != NULL){
+                //if sling 3 is a double
+                if (throwDoub[2] == true){
+                    goodThrow = true;
+                }
+            } //else if sling 2 is not null
+            else if (SlingTwoText != NULL) {
+                //if sling 2 is a double
+                if (throwDoub[1] == true){
+                    goodThrow = true;
+                }
+            } //else if sling 1 is the only one
+            else {
+                if (throwDoub[0] == true){
+                    goodThrow = true;
+                }
+            }
+        }
+        else if (!(myM.currentScore[1] - slingInt == 1)) {
+            goodThrow = true;
+        }
+        if (goodThrow == true){
+            winner = myM.scoreSubtract(1, slingInt);
+            createList(1, 0);
+        }
+        else{
+            createList(1, 1);
+        }
+        scorerDartboard->dartNumber = 0;
     }
 
+    scorerDartboard->dartNumber = 0;
     emit sendValidateTrue(false);    //sending false will unblock the scoring
     //Show the validated throw on the current throw
     lastThrow->clear();
@@ -287,9 +353,13 @@ void ScorerView::on_ValadationYes_clicked()
     currentPlayerPrediction = QString::fromStdString(myM.winThrowCalc(currentPlayerInt));
 
     if(myP.active == false){
+        this->ui->PlayerOneScore->setFrameStyle(0);
+        this->ui->PlayerTwoScore->setFrameStyle(1);
         emit sendP1Prediction(currentPlayerPrediction);
     }
     else{
+        this->ui->PlayerTwoScore->setFrameStyle(0);
+        this->ui->PlayerOneScore->setFrameStyle(1);
          emit sendP2Prediction(currentPlayerPrediction);
     }
 
@@ -308,8 +378,6 @@ void ScorerView::on_ValadationYes_clicked()
         myP.active = !(myP.active);
         qDebug() << "The bool is: " << myP.active;
     }
-
-
 
     //Clearing the labels forces them to update the text
     emit sendP1CurrentScoreUndo();
@@ -332,6 +400,8 @@ void ScorerView::on_ValadationNo_clicked()
     SlingThreeText->clear();
     currentThrowLabel->clear();
     currentThrow->clear();
+    this->repaint();
+    scorerDartboard->dartNumber = 0;
     emit sendValidateTrue(false);    //sending false will unblock the scoring
 }
 
@@ -401,6 +471,8 @@ void ScorerView::legWinner(bool winnerIndex) {
 
     myM.currentScore[0] = myM.startScore;
     myM.currentScore[1] = myM.startScore;
+    formedThrows1.clear();
+    formedThrows2.clear();
     myP.p1Slings.append("\n");
     myP.p2Slings.append("\n");
 
@@ -429,7 +501,15 @@ void ScorerView::legWinner(bool winnerIndex) {
                 victoryIndex = 2;
             }
             //we will boot up a sqlhandler and YEET THAT INFO INTO THE DB.
+            QString path = QDir::currentPath();
+            path = path + QString("/DartLeague.db");
+            sqlHandler mySql(path);
+
+            mySql.sqlSetPlayerFinal(myP);
+            //mySql.sqlSetGameFinal(GAME ID, PLAYER ID, P1 SLINGS, P2SLINGS);
         }
+        this->m_audienceWindow->hide();
+        this->hide();
     }
 }
 
@@ -449,4 +529,73 @@ void ScorerView::on_zeroSling3_clicked()
 {
     this->SlingThreeText->setText(QString::number(0));
     this->repaint();
+}
+
+void ScorerView::createList(int pID, int roundType){
+    QStringList popFunc, allLegs;
+    QString pName;
+    QString pScore;
+    QString pMatches;
+    QString pLegs;
+    QStringList throws;
+
+    pName = QString::fromStdString(myP.playerFirst[pID]);
+    pName.append(" ");
+    pName.append(QString::fromStdString(myP.playerLast[pID]));
+
+    pScore = "Current Score: ";
+    pScore.append(QString::number(myM.currentScore[pID]));
+
+    pMatches = "Matches Won: ";
+    pMatches.append(QString::number(myM.matchWins[pID]));
+    pMatches.append("/");
+    pMatches.append(QString::number(myM.matchTotal));
+
+    pLegs.append("Legs Won: ");
+    pLegs.append(QString::number(myM.legWins[pID]));
+    pLegs.append("/");
+    pLegs.append(QString::number(myM.legTotal));
+
+
+    if (pID == 0) {
+        allLegs = myP.p1Slings.split(("\t"));
+    }
+    else if (pID == 1){
+        allLegs = myP.p2Slings.split(("\t"));
+    }
+    throws = allLegs.last().split("\n");
+
+    if (pID == 0) {
+        formedThrows1.append(throws.last());
+        if (roundType == 1) {
+            formedThrows1.last().append("<-Failed");
+        }
+
+    }
+    else if (pID == 1) {
+        formedThrows2.append(throws.last());
+        if (roundType == 1) {
+            formedThrows2.last().append("<-Failed");
+        }
+    }
+
+
+
+    popFunc.append(pName);
+    popFunc.append(pScore);
+    popFunc.append(pLegs);
+    popFunc.append(pMatches);
+
+    if (pID == 0) {
+        popFunc.append(formedThrows1);
+        ui->listWidget->clear();
+        ui->listWidget->addItems(popFunc);
+        ui->listWidget->repaint();
+    }
+    else if (pID == 1){
+        popFunc.append(formedThrows2);
+        ui->listWidget2->clear();
+        ui->listWidget2->addItems(popFunc);
+        ui->listWidget2->repaint();
+    }
 }
