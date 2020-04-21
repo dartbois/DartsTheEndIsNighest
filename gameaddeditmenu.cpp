@@ -9,7 +9,7 @@ GameAddEditMenu::GameAddEditMenu(QWidget *parent) :
     ui(new Ui::GameAddEditMenu)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Game addintion/Edit ");
+    this->setWindowTitle("Game Add/Edit ");
     this->setWindowFlag(Qt::WindowMinMaxButtonsHint);
 }
 

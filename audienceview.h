@@ -64,6 +64,8 @@ public:
    //set of labels controlling stats displays in the UI
    QLabel *StatisticsDisplay;
    QLabel *Player2Stats;
+   QLabel *Player1CurrentScore;
+   QLabel *Player2CurrentScore;
    //QLabel *BothP1AndP2Stats;
    QLabel *CurrentPlayer;
    QLabel *NumberOf180s;
@@ -71,6 +73,7 @@ public:
    QLabel *PersonalStats;
    //QLabel *MatchStats;
    QLabel *RankedStats;
+   QLabel* legNumber;
    player *players;
    Widget* audienceDartboard;
 

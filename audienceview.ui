@@ -64,7 +64,39 @@
       <enum>QFrame::Plain</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="1">
+      <item row="1" column="3">
+       <widget class="Line" name="line_5">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="midLineWidth">
+         <number>3</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" rowspan="3" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="label">
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#aa0000;&quot;&gt;Win Predictions:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
        <widget class="QLabel" name="PlayerOnePredictions">
         <property name="minimumSize">
          <size>
@@ -86,7 +118,17 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="1" column="1">
+       <widget class="QLabel" name="LegNumber">
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
        <widget class="QLabel" name="PlayerTwoPredictions">
         <property name="maximumSize">
          <size>
@@ -102,35 +144,10 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="Line" name="line_5">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <property name="midLineWidth">
-         <number>3</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="3" alignment="Qt::AlignRight">
-       <widget class="QLabel" name="label">
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>16777215</height>
-         </size>
-        </property>
+      <item row="1" column="0" alignment="Qt::AlignRight">
+       <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#aa0000;&quot;&gt;Win Predictions:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Legs:</string>
         </property>
        </widget>
       </item>

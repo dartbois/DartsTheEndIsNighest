@@ -10,7 +10,7 @@ AudienceView::AudienceView(QWidget *parent) :
     ui(new Ui::AudienceView)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Audience View");
+    this->setWindowTitle("Scoreboard");
     this->setWindowFlag(Qt::WindowMinMaxButtonsHint);
 
 
@@ -27,6 +27,10 @@ AudienceView::AudienceView(QWidget *parent) :
     playerCounter = 1;
     this->players = NULL;
     this->audienceDartboard = this->ui->widgetHolder;
+    this->Player1CurrentScore = ui->PlayerOneLabel;
+    this->Player2CurrentScore = ui->PlayerTwoLabel;
+    this->legNumber = this->ui->LegNumber;
+    legNumber->setText(QString::number(1));
 
     mathClass myMath;
 
