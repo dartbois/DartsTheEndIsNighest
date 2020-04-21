@@ -26,6 +26,7 @@ ScorerView::ScorerView(AudienceView *audienceWindow) :
     audienceDartboard = audienceWindow->audienceDartboard;
     this->scorerDartboard = this->ui->widget;
     m_audienceWindow = audienceWindow;
+    this->ui->PlayerOneScore->setFrameStyle(1);
 
     //connect the show stats signals to the audience window slots
    connect(this, &ScorerView::sendPlayerOneStats, audienceWindow, &AudienceView::setPlayerOneStatsText);
@@ -352,10 +353,14 @@ void ScorerView::on_ValadationYes_clicked()
     currentPlayerPrediction = QString::fromStdString(myM.winThrowCalc(currentPlayerInt));
 
     if(myP.active == false){
+        this->ui->PlayerOneScore->setFrameStyle(0);
+        this->ui->PlayerTwoScore->setFrameStyle(1);
         emit sendP1Prediction(currentPlayerPrediction);
     }
     else{
-         emit sendP2Prediction(currentPlayerPrediction);
+        this->ui->PlayerTwoScore->setFrameStyle(0);
+        this->ui->PlayerOneScore->setFrameStyle(1);
+        emit sendP2Prediction(currentPlayerPrediction);
     }
 
     if (winner < 2){ //if there was a winner for this leg, send it to legWinner.
@@ -519,6 +524,8 @@ void ScorerView::legWinner(bool winnerIndex) {
             mySql.sqlSetPlayerFinal(myP);
             mySql.sqlSetGameFinal(gameID, winnerID, sp1slings, sp2slings);
         }
+        this->m_audienceWindow->hide();
+        this->hide();
     }
 }
 
