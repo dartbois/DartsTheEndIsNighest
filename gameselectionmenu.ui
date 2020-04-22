@@ -22,6 +22,11 @@
      <height>421</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Lucida Console</family>
+    </font>
+   </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">

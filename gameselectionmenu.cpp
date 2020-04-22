@@ -54,7 +54,9 @@ void GameSelectionMenu::FillGameList(){
     //Begin by clearing the list
     ui->listWidget->clear();
 
-    QString header = "Game ID\tGame Name\tDate\tLocation\tPlayer1 ID\tPlayer2 ID\tCompleted?";
+    QString header = QString("%1 %2 %3 %4 %5 %6 %7").arg("Game ID", -10).arg("Game Name", -35).arg("Date", -13).arg("Location", -20).arg("Player1 ID", -15).arg("Player2 ID", -15).arg("Completed?", -15);
+
+
     ui->listWidget->addItem(header);
 
     //Return a string of game info from sqlhandler. \n delimited.
@@ -65,6 +67,16 @@ void GameSelectionMenu::FillGameList(){
 
     //Split the info by \n
     QStringList gameInfoList = QgameInfo.split('\n');
+
+    //Split by \t to get individual fields
+    for (int i = 0; i<gameInfoList.length() - 1; i++){
+        QStringList fields = gameInfoList[i].split("\t");
+
+        QString entry = QString("%1 %2 %3 %4 %5 %6 %7").arg(fields[0], -10).arg(fields[1], -35).arg(fields[2], -13).arg(fields[3], -20).arg(fields[4], -15).arg(fields[5], -15).arg(fields[6], -15);
+
+        gameInfoList[i] = entry;
+
+    }
 
     //Add list to listWidget
     ui->listWidget->addItems(gameInfoList);
