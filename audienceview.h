@@ -5,6 +5,7 @@
 #include <QLabel>
 #include "player.h"
 #include "widget.h"
+#include "mathclass.h"
 
 //this is a UI class
 //This class controls the window the audience would see.
@@ -21,8 +22,12 @@ class AudienceView : public QDialog
 
 public:
     explicit AudienceView(QWidget *parent = nullptr);
+    void createList(int pID, int roundType);
     ~AudienceView();
     int playerCounter;
+    QStringList formedThrows1, formedThrows2;
+    mathClass* myM;
+    player* myP;
 
     //slots can be connected to signals to recieve information
     //broadcast from one instantiated function to another
@@ -58,6 +63,7 @@ public slots:
     void undoPlayerOneStatsText();
     void undoP1CurrentScore();
     void undoP2CurrentScore();
+
 public:
    //initializes the UI
    Ui::AudienceView *ui;

@@ -46,7 +46,7 @@
     <widget class="Widget" name="widgetHolder" native="true"/>
    </item>
    <item row="5" column="6" alignment="Qt::AlignRight">
-    <widget class="QListWidget" name="listWidget_2">
+    <widget class="QListWidget" name="listWidget2">
      <property name="maximumSize">
       <size>
        <width>350</width>
