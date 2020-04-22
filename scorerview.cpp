@@ -219,7 +219,7 @@ void ScorerView::set_SlingThreeText(int score)
 
 void ScorerView::on_ValadationYes_clicked()
 {
-    int winner = 0;
+    int winner = 2;
     int slingInt = 0;
     bool goodThrow = false;
     QString slingHolder = "";
@@ -250,7 +250,7 @@ void ScorerView::on_ValadationYes_clicked()
                     goodThrow = true;
                 }
             } //else if sling 2 is not null
-            else if (SlingTwoText != NULL) {
+            else if (SlingTwoText->text() != NULL) {
                 //if sling 2 is a double
                 if (throwDoub[1] == true){
                     goodThrow = true;
@@ -262,8 +262,11 @@ void ScorerView::on_ValadationYes_clicked()
                 }
             }
         }
-        else if (!(myM.currentScore[0] - slingInt == 1)) {
+        else if (myM.currentScore[0] - slingInt > 2) {
             goodThrow = true;
+        }
+        else {
+            goodThrow = false;
         }
         if (goodThrow == true){
             winner = myM.scoreSubtract(0, slingInt);
@@ -271,6 +274,7 @@ void ScorerView::on_ValadationYes_clicked()
             m_audienceWindow->createList(0,0);
         }
         else {
+            winner = 2;
             createList(0, 1);
             m_audienceWindow->createList(0,1);
         }
@@ -315,8 +319,11 @@ void ScorerView::on_ValadationYes_clicked()
                 }
             }
         }
-        else if (!(myM.currentScore[1] - slingInt == 1)) {
+        else if (myM.currentScore[1] - slingInt > 2) {
             goodThrow = true;
+        }
+        else {
+            goodThrow = false;
         }
         if (goodThrow == true){
             winner = myM.scoreSubtract(1, slingInt);
@@ -324,6 +331,7 @@ void ScorerView::on_ValadationYes_clicked()
             m_audienceWindow->createList(1,0);
         }
         else{
+            winner = 2;
             createList(1, 1);
             m_audienceWindow->createList(1,1);
         }
@@ -376,14 +384,8 @@ void ScorerView::on_ValadationYes_clicked()
         emit sendP2Prediction(currentPlayerPrediction);
     }
 
-    if (winner < 2){ //if there was a winner for this leg, send it to legWinner.
-        if (winner == 0){
-            legWinner(myP.active);
-        }
-        else if (winner == 1){
-            legWinner(!(myP.active));
-        }
-        //legWinner(winner);
+    if (winner != 2){ //if there was a winner for this leg, send it to legWinner.
+        legWinner(winner);
     }
     else{
         //Otherwise, we go to the next leg. Not sure how to implement this exactly.
@@ -479,12 +481,13 @@ void ScorerView::legWinner(bool winnerIndex) {
     //verify leg winner! do a window or something
     if(winnerIndex == false)
     {
-        myM.p2legs[myM.matchesHeld] += 1;
+        myM.p1legs[myM.matchesHeld] += 1;
     }
     else if (winnerIndex == true)
     {
         myM.p2legs[myM.matchesHeld] += 1;
     }
+
 
     myM.currentScore[0] = myM.startScore;
     myM.currentScore[1] = myM.startScore;
@@ -492,6 +495,8 @@ void ScorerView::legWinner(bool winnerIndex) {
     formedThrows2.clear();
     m_audienceWindow->formedThrows1.clear();
     m_audienceWindow->formedThrows2.clear();
+    ui->listWidget->repaint();
+    ui->listWidget2->repaint();
     myP.p1Slings.append("\n");
     myP.p2Slings.append("\n");
 

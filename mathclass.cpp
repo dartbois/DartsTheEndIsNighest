@@ -83,20 +83,12 @@ string mathClass::winThrowCalc(int player){
 //returns 0 if player has not reached 0, 1 if player wins,
 //and 2 if player is in the negatives (opponent win).
 int mathClass::scoreSubtract(int player, int throwScore){
-    int winner = 0;
+    int winner = 2;
     int score = currentScore[player];
     score = score - throwScore;
     currentScore[player] = score;
     if (currentScore[player] == 0) { //if the current player hits 0, they win the leg.
         winner = player;
-    }
-    else if (currentScore[player] < 0){ //if the current player goes past 0, the other player wins the leg.
-        if (player == 0) {
-            winner = 1;
-        }
-        else {
-            winner = 0;
-        }
     }
     else { //otherwise, the match continues as normal.
         winner = 2;
