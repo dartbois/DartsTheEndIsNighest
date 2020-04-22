@@ -31,7 +31,8 @@ void ManageGameMenu::FillGameList(){
     //Begin by clearing the list
     ui->listWidget->clear();
 
-    QString header = "Game ID\tGame Name\tDate\tLocation\tPlayer1 ID\tPlayer2 ID\tCompleted?";
+    QString header = QString("%1\t%2\t%3\t%4\t%5\t%6\t%7").arg("Game ID", -6).arg("Game Name", -30).arg("Date", -11).arg("Location", -16).arg("Player1 ID", -10).arg("Player2 ID", -10).arg("Completed?", -15);
+
     ui->listWidget->addItem(header);
 
     //Return a string of game info from sqlhandler. \n delimited.
@@ -42,6 +43,16 @@ void ManageGameMenu::FillGameList(){
 
     //Split the info by \n
     QStringList gameInfoList = QgameInfo.split('\n');
+
+    //Split by \t to get individual fields
+    for (int i = 0; i<gameInfoList.length() - 1; i++){
+        QStringList fields = gameInfoList[i].split("\t");
+
+        QString entry = QString("%1\t%2\t%3\t%4\t%5\t%6\t%7\t").arg(fields[0], -6).arg(fields[1], -30).arg(fields[2], -11).arg(fields[3], -16).arg(fields[4], -10).arg(fields[5], -10).arg(fields[6], -11);
+
+        gameInfoList[i] = entry;
+
+    }
 
     //Add list to listWidget
     ui->listWidget->addItems(gameInfoList);
@@ -60,7 +71,7 @@ void ManageGameMenu::on_GameMenuEdit_clicked()
     if (ui->listWidget->currentRow() != 0){
         QString currentItem = ui->listWidget->currentItem()->text();
         if (QString::compare(currentItem, "") != 0){
-            QStringList currentItemList = currentItem.split("\t");
+            QStringList currentItemList = currentItem.split(QRegExp("(\\s)+\\t"));
             gotGID = currentItemList[0].toInt();
 
             gameAddEditMenu->oGID = gotGID;
@@ -77,7 +88,7 @@ void ManageGameMenu::on_GameMenuRemove_clicked()
 
         QString currentItem = ui->listWidget->currentItem()->text();
         if (QString::compare(currentItem, "") != 0){
-            QStringList currentItemList = currentItem.split("\t");
+            QStringList currentItemList = currentItem.split(QRegExp("(\\s)+\\t"));
             currentItem = currentItemList[0];
 
             string currentItemID = currentItem.toStdString();
@@ -103,7 +114,7 @@ void ManageGameMenu::on_GameMenuReview_clicked()
         QString currentItem = ui->listWidget->currentItem()->text();
 
         if (QString::compare(currentItem, "") != 0){
-            QStringList currentItemList = currentItem.split("\t");
+            QStringList currentItemList = currentItem.split(QRegExp("(\\s)+\\t"));
             gotGID = currentItemList[0].toInt();
 
             if (currentItemList[6] == "1"){

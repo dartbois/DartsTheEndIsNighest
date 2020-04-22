@@ -26,6 +26,7 @@ public:
     int gameLegs;
     int gameMatches;
     int gamePs[2];
+    int gameID;
     //Facilitates data transmission
     string dataGet(string request);
 

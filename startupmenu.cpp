@@ -43,5 +43,4 @@ void StartupMenu::on_GameButton_clicked()
 {
     gameSelectionMenu = new GameSelectionMenu();
     gameSelectionMenu -> show();
-    this->hide();
 }

@@ -3,6 +3,8 @@
 #include "audienceview.h"
 #include <String>
 #include <QDebug>
+#include <QDir>
+#include "sqlhandler.h"
 
 
 ScorerView::ScorerView(AudienceView *audienceWindow) :
@@ -24,6 +26,12 @@ ScorerView::ScorerView(AudienceView *audienceWindow) :
     audienceDartboard = audienceWindow->audienceDartboard;
     this->scorerDartboard = this->ui->widget;
     m_audienceWindow = audienceWindow;
+
+    //Show the active player as player 1 and the current leg as leg 1
+    this->ui->PlayerOneScore->setFrameStyle(1);
+    this->ui->LegNumber->setText(QString::number(1));
+    m_audienceWindow->myM = &(this->myM);
+    m_audienceWindow->myP = &(this->myP);
 
     //connect the show stats signals to the audience window slots
    connect(this, &ScorerView::sendPlayerOneStats, audienceWindow, &AudienceView::setPlayerOneStatsText);
@@ -211,7 +219,7 @@ void ScorerView::set_SlingThreeText(int score)
 
 void ScorerView::on_ValadationYes_clicked()
 {
-    int winner = 0;
+    int winner = 2;
     int slingInt = 0;
     bool goodThrow = false;
     QString slingHolder = "";
@@ -231,7 +239,7 @@ void ScorerView::on_ValadationYes_clicked()
         slingHolder = SlingThreeText->text();
         slingInt += slingHolder.toInt();
         myP.p1Slings.append(slingHolder);
-        myP.p1Slings.append("/t");
+        myP.p1Slings.append("\t");
 
         //if this match brings the player to 0
         if (myM.currentScore[0] - slingInt == 0){
@@ -254,15 +262,21 @@ void ScorerView::on_ValadationYes_clicked()
                 }
             }
         }
-        else if (!(myM.currentScore[0] - slingInt == 1)) {
+        else if (myM.currentScore[0] - slingInt > 2) {
             goodThrow = true;
+        }
+        else {
+            goodThrow = false;
         }
         if (goodThrow == true){
             winner = myM.scoreSubtract(0, slingInt);
             createList(0, 0);
+            m_audienceWindow->createList(0,0);
         }
         else {
+            winner = 2;
             createList(0, 1);
+            m_audienceWindow->createList(0,1);
         }
     }
     else { //if myP.active is true, player2 is active
@@ -279,7 +293,7 @@ void ScorerView::on_ValadationYes_clicked()
         slingHolder = SlingThreeText->text();
         slingInt += slingHolder.toInt();
         myP.p2Slings.append(slingHolder);
-        myP.p2Slings.append("/t");
+        myP.p2Slings.append("\t");
 
         if (slingInt == 180) {
             myP.playerMatch180s[1] = myP.playerMatch180s[1] + 1;
@@ -305,16 +319,23 @@ void ScorerView::on_ValadationYes_clicked()
                 }
             }
         }
-        else if (!(myM.currentScore[1] - slingInt == 1)) {
+        else if (myM.currentScore[1] - slingInt > 2) {
             goodThrow = true;
+        }
+        else {
+            goodThrow = false;
         }
         if (goodThrow == true){
             winner = myM.scoreSubtract(1, slingInt);
             createList(1, 0);
+            m_audienceWindow->createList(1,0);
         }
-        else {
+        else{
+            winner = 2;
             createList(1, 1);
+            m_audienceWindow->createList(1,1);
         }
+        scorerDartboard->dartNumber = 0;
     }
 
     scorerDartboard->dartNumber = 0;
@@ -335,22 +356,6 @@ void ScorerView::on_ValadationYes_clicked()
     SlingTwoText->clear();
     SlingThreeText->clear();
 
-    if (winner < 2){ //if there was a winner for this leg, send it to legWinner.
-        if (winner == 0){
-            legWinner(myP.active);
-        }
-        else if (winner == 1){
-            legWinner(!(myP.active));
-        }
-        //legWinner(winner);
-    }
-    else{
-        //Otherwise, we go to the next leg. Not sure how to implement this exactly.
-        //flips a boolean value which controls which player is being affected by all this
-        myP.active = !(myP.active);
-        qDebug() << "The bool is: " << myP.active;
-    }
-
     int currentPlayerInt = 0;
 
     if(myP.active == false){
@@ -365,10 +370,28 @@ void ScorerView::on_ValadationYes_clicked()
     currentPlayerPrediction = QString::fromStdString(myM.winThrowCalc(currentPlayerInt));
 
     if(myP.active == false){
+        this->ui->PlayerOneScore->setFrameStyle(0);
+        this->ui->PlayerTwoScore->setFrameStyle(1);
+        m_audienceWindow->Player1CurrentScore->setFrameStyle(0);
+        m_audienceWindow->Player2CurrentScore->setFrameStyle(1);
         emit sendP1Prediction(currentPlayerPrediction);
     }
     else{
-         emit sendP2Prediction(currentPlayerPrediction);
+        this->ui->PlayerTwoScore->setFrameStyle(0);
+        this->ui->PlayerOneScore->setFrameStyle(1);
+        m_audienceWindow->Player1CurrentScore->setFrameStyle(1);
+        m_audienceWindow->Player2CurrentScore->setFrameStyle(0);
+        emit sendP2Prediction(currentPlayerPrediction);
+    }
+
+    if (winner != 2){ //if there was a winner for this leg, send it to legWinner.
+        legWinner(winner);
+    }
+    else{
+        //Otherwise, we go to the next leg. Not sure how to implement this exactly.
+        //flips a boolean value which controls which player is being affected by all this
+        myP.active = !(myP.active);
+        qDebug() << "The bool is: " << myP.active;
     }
 
     //Clearing the labels forces them to update the text
@@ -382,6 +405,8 @@ void ScorerView::on_ValadationYes_clicked()
     if (ui->CurrentPlayerStats->isChecked()){
         emit sendCurrentPlayerStats();
     }
+    this->ui->LegNumber->setText(QString::number((myM.p1legs[myM.matchesHeld]+myM.p2legs[myM.matchesHeld]) + 1));
+    m_audienceWindow->legNumber->setText(QString::number((myM.p1legs[myM.matchesHeld]+myM.p2legs[myM.matchesHeld]) + 1));
     this->repaint();
 }
 
@@ -392,6 +417,8 @@ void ScorerView::on_ValadationNo_clicked()
     SlingThreeText->clear();
     currentThrowLabel->clear();
     currentThrow->clear();
+    this->repaint();
+    scorerDartboard->dartNumber = 0;
     emit sendValidateTrue(false);    //sending false will unblock the scoring
 }
 
@@ -437,6 +464,8 @@ void ScorerView::getMSD(MatchStartData myMSD){
     myM.legTotal = myMSD.gameLegs;
     myM.matchTotal = myMSD.gameMatches;
     myP.postInit(myMSD.gamePs[0], myMSD.gamePs[1]);
+    gameID = myMSD.gameID;
+    myM.legKeep(myM.matchTotal);
 
     //Clearing the labels forces them to update the text
     emit sendP1CurrentScoreUndo();
@@ -452,33 +481,42 @@ void ScorerView::legWinner(bool winnerIndex) {
     //verify leg winner! do a window or something
     if(winnerIndex == false)
     {
-        myM.legWins[1] += 1;
+        myM.p1legs[myM.matchesHeld] += 1;
     }
     else if (winnerIndex == true)
     {
-        myM.legWins[0] += 1;
+        myM.p2legs[myM.matchesHeld] += 1;
     }
+
 
     myM.currentScore[0] = myM.startScore;
     myM.currentScore[1] = myM.startScore;
     formedThrows1.clear();
     formedThrows2.clear();
+    m_audienceWindow->formedThrows1.clear();
+    m_audienceWindow->formedThrows2.clear();
+    ui->listWidget->repaint();
+    ui->listWidget2->repaint();
     myP.p1Slings.append("\n");
     myP.p2Slings.append("\n");
 
     //it is impossible to tie on legs, so total number of legs is just total number of leg victories.
-    if ((myM.legWins[0] + myM.legWins[1]) == myM.legTotal){
+    if ((myM.p1legs[myM.matchesHeld]+myM.p2legs[myM.matchesHeld] == myM.legTotal)){
         //This match is complete!
-        if (myM.legWins[0] > myM.legWins[1]) { //p1 has more LEG wins
+        if (myM.p1legs[myM.matchesHeld] > myM.p2legs[myM.matchesHeld]) { //p1 has more LEG wins
             myM.matchWins[0] += 1;
         }
-        else if (myM.legWins[1] > myM.legWins[0]){ //p2 has more LEG wins
+        else if (myM.p1legs[myM.matchesHeld] < myM.p2legs[myM.matchesHeld]){ //p2 has more LEG wins
             myM.matchWins[1] += 1;
         }
         else { //in case of a tie
             myM.ties += 1;
         }
         myM.matchesHeld += 1; //update matches held : 3
+
+
+
+
         if (myM.matchesHeld == myM.matchTotal) {
             //THA GAME IS DONE>
             if (myM.matchWins[0] > myM.matchWins[1]){ //p1 has more MATCH wins
@@ -490,8 +528,26 @@ void ScorerView::legWinner(bool winnerIndex) {
             else { //tie
                 victoryIndex = 2;
             }
-            //we will boot up a sqlhandler and YEET THAT INFO INTO THE DB.
+            //Pushing the final
+            QString path = QDir::currentPath();
+            path = path + QString("/DartLeague.db");
+            sqlHandler mySql(path);
+
+            int winnerID = 0;
+            if (victoryIndex == 0){
+                winnerID = myP.playerIDs[0];
+            }
+            else if (victoryIndex == 1){
+                winnerID = myP.playerIDs[1];
+            }
+            string sp1slings = myP.p1Slings.toStdString();
+            string sp2slings = myP.p2Slings.toStdString();
+
+            mySql.sqlSetPlayerFinal(myP);
+            mySql.sqlSetGameFinal(gameID, winnerID, sp1slings, sp2slings);
         }
+        this->m_audienceWindow->hide();
+        this->hide();
     }
 }
 
@@ -520,6 +576,7 @@ void ScorerView::createList(int pID, int roundType){
     QString pMatches;
     QString pLegs;
     QStringList throws;
+    int plyrLeg;
 
     pName = QString::fromStdString(myP.playerFirst[pID]);
     pName.append(" ");
@@ -534,18 +591,24 @@ void ScorerView::createList(int pID, int roundType){
     pMatches.append(QString::number(myM.matchTotal));
 
     pLegs.append("Legs Won: ");
-    pLegs.append(QString::number(myM.legWins[pID]));
+    if (pID == 0){
+        plyrLeg = myM.p1legs[myM.matchesHeld];
+    }
+    else if (pID == 1) {
+        plyrLeg = myM.p2legs[myM.matchesHeld];
+    }
+    pLegs.append(QString::number(plyrLeg));
     pLegs.append("/");
     pLegs.append(QString::number(myM.legTotal));
 
 
     if (pID == 0) {
-        allLegs = myP.p1Slings.split(("\t"));
+        allLegs = myP.p1Slings.split(("\n"));
     }
     else if (pID == 1){
-        allLegs = myP.p2Slings.split(("\t"));
+        allLegs = myP.p2Slings.split(("\n"));
     }
-    throws = allLegs.last().split("\n");
+    throws = allLegs.last().split("\t", QString::SkipEmptyParts);
 
     if (pID == 0) {
         formedThrows1.append(throws.last());

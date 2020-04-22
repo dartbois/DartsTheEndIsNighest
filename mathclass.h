@@ -13,19 +13,23 @@ public:
     //Constructors
     mathClass(int scoreStart);
     mathClass();
+    void legKeep(int matches);
     string winnerCalc(); //calculates the match winner
     string winThrowCalc(int player); //calculates the winning throws
     int scoreSubtract(int player, int throwScore); //subtracts score from total, player is 0 or 1
     string dataGet(string request); //Facilitates data transmission
     bool scoreValidator(int remScore);
     int currentScore[2]; //current score
-    int legWins[2];
+    //int legWins[2];
     int legTotal;
     int matchWins[2];
     int matchTotal;
+    int everyLeg;
     int matchesHeld;
     int ties;
     int startScore;
+    int *p1legs;
+    int *p2legs;
 private:
 
     //every winning throw in string form in an array

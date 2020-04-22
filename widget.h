@@ -15,6 +15,7 @@ public:
     Widget(QWidget *parent = 0);
     ~Widget();
     int score = 0;
+    int counter;
     int dartNumber;
     bool validateState;
     QList<QPieSlice *> doubleSlices;
@@ -36,7 +37,6 @@ public slots:
 private:
     QList<QPieSeries *> m_donuts;
     QList<QPieSlice *> m_slices;
-
     QList<QPieSlice *> outerSlices;
     QWidget* theParent;
     QLabel *scoreDisplayer;
