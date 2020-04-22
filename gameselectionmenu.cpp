@@ -30,8 +30,8 @@ void GameSelectionMenu::on_pushButton_clicked()
         //put it in a matchstartdata then send it to scorerview
         QListWidgetItem * myGame = ui->listWidget->currentItem();
         QStringList gameString = myGame->text().split("\t");
-        QString gameIDstring = gameString[0];
-        QString completed = gameString[6];
+        QString gameIDstring = gameString[0].split("", Qt::SkipEmptyParts).first();
+        QString completed = gameString[6].split("", Qt::SkipEmptyParts).first();
 
         if (completed == "0"){
 
@@ -54,7 +54,7 @@ void GameSelectionMenu::FillGameList(){
     //Begin by clearing the list
     ui->listWidget->clear();
 
-    QString header = QString("%1 %2 %3 %4 %5 %6 %7").arg("Game ID", -10).arg("Game Name", -35).arg("Date", -13).arg("Location", -20).arg("Player1 ID", -15).arg("Player2 ID", -15).arg("Completed?", -15);
+    QString header = QString("%1\t%2\t%3\t%4\t%5\t%6\t%7").arg("Game ID", -6).arg("Game Name", -30).arg("Date", -11).arg("Location", -16).arg("Player1 ID", -10).arg("Player2 ID", -10).arg("Completed?", -15);
 
 
     ui->listWidget->addItem(header);
@@ -72,7 +72,7 @@ void GameSelectionMenu::FillGameList(){
     for (int i = 0; i<gameInfoList.length() - 1; i++){
         QStringList fields = gameInfoList[i].split("\t");
 
-        QString entry = QString("%1 %2 %3 %4 %5 %6 %7").arg(fields[0], -10).arg(fields[1], -35).arg(fields[2], -13).arg(fields[3], -20).arg(fields[4], -15).arg(fields[5], -15).arg(fields[6], -15);
+        QString entry = QString("%1\t%2\t%3\t%4\t%5\t%6\t%7").arg(fields[0], -6).arg(fields[1], -30).arg(fields[2], -11).arg(fields[3], -16).arg(fields[4], -10).arg(fields[5], -10).arg(fields[6], -11);
 
         gameInfoList[i] = entry;
 

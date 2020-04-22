@@ -10,7 +10,7 @@ AudienceView::AudienceView(QWidget *parent) :
     ui(new Ui::AudienceView)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Audience View");
+    this->setWindowTitle("Scoreboard");
     this->setWindowFlag(Qt::WindowMinMaxButtonsHint);
 
 
@@ -27,6 +27,10 @@ AudienceView::AudienceView(QWidget *parent) :
     playerCounter = 1;
     this->players = NULL;
     this->audienceDartboard = this->ui->widgetHolder;
+    this->Player1CurrentScore = ui->PlayerOneLabel;
+    this->Player2CurrentScore = ui->PlayerTwoLabel;
+    this->legNumber = this->ui->LegNumber;
+    legNumber->setText(QString::number(1));
 
     mathClass myMath;
 
@@ -573,4 +577,80 @@ void AudienceView::setLatestThrowText(QString *latestThrow)
         ui->PlayerTwoLastThrowLabel->setText(*latestThrow);
     }
     playerCounter++;
+}
+
+void AudienceView::createList(int pID, int roundType){
+    QStringList popFunc, allLegs;
+    QString pName;
+    QString pScore;
+    QString pMatches;
+    QString pLegs;
+    QStringList throws;
+    int plyrLeg;
+
+    pName = QString::fromStdString(myP->playerFirst[pID]);
+    pName.append(" ");
+    pName.append(QString::fromStdString(myP->playerLast[pID]));
+
+    pScore = "Current Score: ";
+    pScore.append(QString::number(myM->currentScore[pID]));
+
+    pMatches = "Matches Won: ";
+    pMatches.append(QString::number(myM->matchWins[pID]));
+    pMatches.append("/");
+    pMatches.append(QString::number(myM->matchTotal));
+
+    pLegs.append("Legs Won: ");
+    if (pID == 0){
+        plyrLeg = myM->p1legs[myM->matchesHeld];
+    }
+    else if (pID == 1) {
+        plyrLeg = myM->p2legs[myM->matchesHeld];
+    }
+    pLegs.append(QString::number(plyrLeg));
+    pLegs.append("/");
+    pLegs.append(QString::number(myM->legTotal));
+
+
+    if (pID == 0) {
+        allLegs = myP->p1Slings.split(("\n"));
+    }
+    else if (pID == 1){
+        allLegs = myP->p2Slings.split(("\n"));
+    }
+    throws = allLegs.last().split("\t", QString::SkipEmptyParts);
+
+    if (pID == 0) {
+        formedThrows1.append(throws.last());
+        if (roundType == 1) {
+            formedThrows1.last().append("<-Failed");
+        }
+
+    }
+    else if (pID == 1) {
+        formedThrows2.append(throws.last());
+        if (roundType == 1) {
+            formedThrows2.last().append("<-Failed");
+        }
+    }
+
+
+
+    popFunc.append(pName);
+    popFunc.append(pScore);
+    popFunc.append(pLegs);
+    popFunc.append(pMatches);
+
+    if (pID == 0) {
+        popFunc.append(formedThrows1);
+        ui->listWidget->clear();
+        ui->listWidget->addItems(popFunc);
+        ui->listWidget->repaint();
+    }
+    else if (pID == 1){
+        popFunc.append(formedThrows2);
+        ui->listWidget2->clear();
+        ui->listWidget2->addItems(popFunc);
+        ui->listWidget2->repaint();
+    }
 }

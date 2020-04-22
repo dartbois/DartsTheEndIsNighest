@@ -26,7 +26,12 @@ ScorerView::ScorerView(AudienceView *audienceWindow) :
     audienceDartboard = audienceWindow->audienceDartboard;
     this->scorerDartboard = this->ui->widget;
     m_audienceWindow = audienceWindow;
+
+    //Show the active player as player 1 and the current leg as leg 1
     this->ui->PlayerOneScore->setFrameStyle(1);
+    this->ui->LegNumber->setText(QString::number(1));
+    m_audienceWindow->myM = &(this->myM);
+    m_audienceWindow->myP = &(this->myP);
 
     //connect the show stats signals to the audience window slots
    connect(this, &ScorerView::sendPlayerOneStats, audienceWindow, &AudienceView::setPlayerOneStatsText);
@@ -263,9 +268,11 @@ void ScorerView::on_ValadationYes_clicked()
         if (goodThrow == true){
             winner = myM.scoreSubtract(0, slingInt);
             createList(0, 0);
+            m_audienceWindow->createList(0,0);
         }
         else {
             createList(0, 1);
+            m_audienceWindow->createList(0,1);
         }
     }
     else { //if myP.active is true, player2 is active
@@ -314,9 +321,11 @@ void ScorerView::on_ValadationYes_clicked()
         if (goodThrow == true){
             winner = myM.scoreSubtract(1, slingInt);
             createList(1, 0);
+            m_audienceWindow->createList(1,0);
         }
         else{
             createList(1, 1);
+            m_audienceWindow->createList(1,1);
         }
         scorerDartboard->dartNumber = 0;
     }
@@ -355,11 +364,15 @@ void ScorerView::on_ValadationYes_clicked()
     if(myP.active == false){
         this->ui->PlayerOneScore->setFrameStyle(0);
         this->ui->PlayerTwoScore->setFrameStyle(1);
+        m_audienceWindow->Player1CurrentScore->setFrameStyle(0);
+        m_audienceWindow->Player2CurrentScore->setFrameStyle(1);
         emit sendP1Prediction(currentPlayerPrediction);
     }
     else{
         this->ui->PlayerTwoScore->setFrameStyle(0);
         this->ui->PlayerOneScore->setFrameStyle(1);
+        m_audienceWindow->Player1CurrentScore->setFrameStyle(1);
+        m_audienceWindow->Player2CurrentScore->setFrameStyle(0);
         emit sendP2Prediction(currentPlayerPrediction);
     }
 
@@ -390,6 +403,8 @@ void ScorerView::on_ValadationYes_clicked()
     if (ui->CurrentPlayerStats->isChecked()){
         emit sendCurrentPlayerStats();
     }
+    this->ui->LegNumber->setText(QString::number((myM.p1legs[myM.matchesHeld]+myM.p2legs[myM.matchesHeld]) + 1));
+    m_audienceWindow->legNumber->setText(QString::number((myM.p1legs[myM.matchesHeld]+myM.p2legs[myM.matchesHeld]) + 1));
     this->repaint();
 }
 
@@ -475,6 +490,8 @@ void ScorerView::legWinner(bool winnerIndex) {
     myM.currentScore[1] = myM.startScore;
     formedThrows1.clear();
     formedThrows2.clear();
+    m_audienceWindow->formedThrows1.clear();
+    m_audienceWindow->formedThrows2.clear();
     myP.p1Slings.append("\n");
     myP.p2Slings.append("\n");
 

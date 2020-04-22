@@ -10,7 +10,7 @@ PlayerAddEditMenu::PlayerAddEditMenu(QWidget *parent) :
     ui(new Ui::PlayerAddEditMenu)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Player Addition/Edit");
+    this->setWindowTitle("Player Add/Edit");
     this->setWindowFlag(Qt::WindowMinMaxButtonsHint);
 }
 
