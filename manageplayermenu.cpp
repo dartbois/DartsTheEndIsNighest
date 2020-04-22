@@ -28,7 +28,8 @@ void ManagePlayerMenu::FillPlayerList(){
     //Begin by clearing the list
     ui->listWidget->clear();
 
-    QString header = "Player ID\tFirst\tLast\tHometown\tLeague Rank\tGames Played";
+    QString header = QString("%1\t%2\t%3\t%4\t%5\t%6\t").arg("Player ID", -9).arg("First", -16).arg("Last", -16).arg("Hometown", -22).arg("League Rank", -11).arg("Games Played", -9);
+
     ui->listWidget->addItem(header);
 
     //Return a string of game info from sqlhandler. \n delimited.
@@ -39,6 +40,16 @@ void ManagePlayerMenu::FillPlayerList(){
 
     //Split the info by \n
     QStringList playerInfoList = QplayerInfo.split('\n');
+
+    //Split by \t to get individual fields
+    for (int i = 0; i<playerInfoList.length() - 1; i++){
+        QStringList fields = playerInfoList[i].split("\t");
+
+        QString entry = QString("%1\t%2\t%3\t%4\t%5\t%6\t").arg(fields[0], -9).arg(fields[1], -16).arg(fields[2], -16).arg(fields[3], -22).arg(fields[4], -11).arg(fields[5], -9);
+
+        playerInfoList[i] = entry;
+
+    }
 
     //Add list to listWidget
     ui->listWidget->addItems(playerInfoList);
@@ -58,7 +69,7 @@ void ManagePlayerMenu::on_PlayerMenuEdit_clicked()
     if (ui->listWidget->currentRow() != 0){
         QString currentItem = ui->listWidget->currentItem()->text();
         if (QString::compare(currentItem, "") != 0){
-            QStringList currentItemList = currentItem.split("\t");
+            QStringList currentItemList = currentItem.split(QRegExp("(\\s)+\\t"), Qt::SkipEmptyParts);
             currentItem = currentItemList[0];
             gotPID = currentItem.toInt();
 
@@ -76,7 +87,7 @@ void ManagePlayerMenu::on_PlayerMenuRemove_clicked()
 
        QString currentItem = ui->listWidget->currentItem()->text();
        if (QString::compare(currentItem, "") != 0){
-           QStringList currentItemList = currentItem.split("\t");
+           QStringList currentItemList = currentItem.split(QRegExp("(\\s)+\\t"), Qt::SkipEmptyParts);
            currentItem = currentItemList[0];
 
            string currentItemID = currentItem.toStdString();

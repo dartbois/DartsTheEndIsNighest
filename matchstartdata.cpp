@@ -13,6 +13,7 @@ MatchStartData::MatchStartData(int matchID)
         gameLegs = 0;
         gamePs[0] = 0;
         gamePs[1] = 0;
+        gameID = 0;
     }
     else{
         string id = to_string(matchID);
@@ -33,6 +34,7 @@ MatchStartData::MatchStartData(int matchID)
         gamePs[0] = stoi(myD.sqlGet(req));
         req = id + ":gameP2";
         gamePs[1] = stoi(myD.sqlGet(req));
+        gameID = matchID;
     }
 
 }
@@ -47,6 +49,7 @@ MatchStartData::MatchStartData()
     gameLegs = NULL;
     gamePs[0] = 0;
     gamePs[1] = 0;
+    gameID = 0;
 }
 
 void MatchStartData::postInit(int matchID){
@@ -59,6 +62,7 @@ void MatchStartData::postInit(int matchID){
         gameLegs = 0;
         gamePs[0] = 0;
         gamePs[1] = 0;
+        gameID = 0;
     }
     else{
         DataHandler myD;
@@ -80,6 +84,7 @@ void MatchStartData::postInit(int matchID){
         gamePs[0] = stoi(myD.sqlGet(req));
         req = id + ":gameP2";
         gamePs[1] = stoi(myD.sqlGet(req));
+        gameID = matchID;
     }
     return;
 }

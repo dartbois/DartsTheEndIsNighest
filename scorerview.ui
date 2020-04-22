@@ -17,157 +17,6 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="16">
-    <widget class="QPushButton" name="ValadationYes">
-     <property name="text">
-      <string>Yes</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="15" alignment="Qt::AlignVCenter">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Legs&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt; :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="18">
-    <widget class="QPushButton" name="pushButton_4">
-     <property name="text">
-      <string>Finish Match</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2" rowspan="5" colspan="12">
-    <widget class="Widget" name="widget" native="true">
-     <property name="baseSize">
-      <size>
-       <width>1000</width>
-       <height>1000</height>
-      </size>
-     </property>
-     <widget class="QLabel" name="PlayerOneScore">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>20</y>
-        <width>58</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="PlayerTwoScore">
-      <property name="geometry">
-       <rect>
-        <x>250</x>
-        <y>20</y>
-        <width>58</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_3">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>20</y>
-        <width>58</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>P1 Score:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>20</y>
-        <width>58</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>P2 Score:</string>
-      </property>
-     </widget>
-    </widget>
-   </item>
-   <item row="0" column="20">
-    <widget class="QPushButton" name="zeroSling1">
-     <property name="text">
-      <string>Zero-out Sling 1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="2" rowspan="3" colspan="17">
-    <widget class="Line" name="line_2">
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="midLineWidth">
-      <number>2</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="12" rowspan="2">
-    <widget class="Line" name="line_5">
-     <property name="baseSize">
-      <size>
-       <width>500</width>
-       <height>500</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>2</number>
-     </property>
-     <property name="midLineWidth">
-      <number>2</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="17" rowspan="2">
-    <widget class="Line" name="line_9">
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>2</number>
-     </property>
-     <property name="midLineWidth">
-      <number>2</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="15">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Validation: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-   </item>
    <item row="4" column="20">
     <widget class="QListWidget" name="listWidget2">
      <property name="maximumSize">
@@ -178,31 +27,14 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="16">
-    <widget class="QLabel" name="LegNumber">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="16">
-    <widget class="QLabel" name="SlingTwo">
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="18">
+   <item row="1" column="17">
     <widget class="QPushButton" name="ValadationNo">
      <property name="text">
       <string>No</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="18">
+   <item row="0" column="17">
     <widget class="QLabel" name="SlineThree">
      <property name="frameShape">
       <enum>QFrame::Box</enum>
@@ -212,7 +44,30 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="15" colspan="4">
+   <item row="0" column="14" rowspan="4">
+    <widget class="Line" name="line_11">
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="midLineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="20">
+    <widget class="QPushButton" name="zeroSling2">
+     <property name="text">
+      <string>Zero-out Sling 2</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="15" colspan="3">
     <widget class="QListWidget" name="listWidget">
      <property name="maximumSize">
       <size>
@@ -222,89 +77,6 @@
      </property>
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="Line" name="line_8">
-     <property name="midLineWidth">
-      <number>2</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="18">
-    <widget class="QPushButton" name="pushButton_3">
-     <property name="text">
-      <string>Next Leg</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="2">
-    <widget class="QFrame" name="frame">
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Current Throw :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="CurrentThrowLabel">
-        <property name="frameShape">
-         <enum>QFrame::Box</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line_10">
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Last Throw :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="LastThrowLabel">
-        <property name="frameShape">
-         <enum>QFrame::Box</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="15">
-    <widget class="QLabel" name="SlingOne">
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
    </item>
@@ -376,20 +148,6 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="20">
-    <widget class="QPushButton" name="zeroSling2">
-     <property name="text">
-      <string>Zero-out Sling 2</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="20">
-    <widget class="QPushButton" name="zeroSling3">
-     <property name="text">
-      <string>Zero-out Sling 3</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="15" colspan="6">
     <widget class="Line" name="line_6">
      <property name="frameShadow">
@@ -403,8 +161,220 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="14" rowspan="4">
-    <widget class="Line" name="line_11">
+   <item row="0" column="20">
+    <widget class="QPushButton" name="zeroSling1">
+     <property name="text">
+      <string>Zero-out Sling 1</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="20">
+    <widget class="QLabel" name="LegNumber">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="Line" name="line_8">
+     <property name="midLineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="2">
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Current Throw :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="CurrentThrowLabel">
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_10">
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Last Throw :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="LastThrowLabel">
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="16">
+    <widget class="QLabel" name="SlingTwo">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="19">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Legs&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt; :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2" rowspan="3" colspan="19">
+    <widget class="Line" name="line_2">
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="midLineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="15">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Validation: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="15">
+    <widget class="QLabel" name="SlingOne">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="20">
+    <widget class="QPushButton" name="zeroSling3">
+     <property name="text">
+      <string>Zero-out Sling 3</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2" rowspan="5" colspan="12">
+    <widget class="Widget" name="widget" native="true">
+     <property name="baseSize">
+      <size>
+       <width>1000</width>
+       <height>1000</height>
+      </size>
+     </property>
+     <widget class="QLabel" name="PlayerOneScore">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>20</y>
+        <width>58</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="PlayerTwoScore">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>20</y>
+        <width>58</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>58</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>P1 Score:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>20</y>
+        <width>58</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>P2 Score:</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="16">
+    <widget class="QPushButton" name="ValadationYes">
+     <property name="text">
+      <string>Yes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="18">
+    <widget class="Line" name="line_5">
+     <property name="baseSize">
+      <size>
+       <width>500</width>
+       <height>500</height>
+      </size>
+     </property>
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>
      </property>
@@ -419,21 +389,28 @@
      </property>
     </widget>
    </item>
+   <item row="4" column="19" alignment="Qt::AlignHCenter">
+    <widget class="Line" name="line">
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
   </layout>
   <zorder>line_2</zorder>
   <zorder>line_8</zorder>
   <zorder>line_6</zorder>
   <zorder>listWidget2</zorder>
-  <zorder>line_5</zorder>
   <zorder>frame_2</zorder>
   <zorder>frame</zorder>
-  <zorder>label_6</zorder>
   <zorder>SlingOne</zorder>
   <zorder>SlineThree</zorder>
-  <zorder>pushButton_3</zorder>
-  <zorder>pushButton_4</zorder>
-  <zorder>line_9</zorder>
-  <zorder>LegNumber</zorder>
   <zorder>SlingTwo</zorder>
   <zorder>widget</zorder>
   <zorder>ValadationNo</zorder>
@@ -444,6 +421,10 @@
   <zorder>zeroSling1</zorder>
   <zorder>zeroSling2</zorder>
   <zorder>zeroSling3</zorder>
+  <zorder>LegNumber</zorder>
+  <zorder>label_6</zorder>
+  <zorder>line_5</zorder>
+  <zorder>line</zorder>
  </widget>
  <customwidgets>
   <customwidget>

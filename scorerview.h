@@ -168,6 +168,7 @@ public:
     Widget* audienceDartboard;
     Widget* scorerDartboard;
     bool throwDoub[3];
+    int gameID;
 
 private:
     void createList(int pID, int roundType); //pID is 0, 1; roundType is 0 (normal), 1 (failed throw)
