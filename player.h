@@ -10,9 +10,11 @@ using namespace std;
 class player
 {
 public:
+    //Initialization functions.
     player(int playerID, int playerID2);
     player();
     void postInit(int playerID, int PlayerID2);
+    //A variety of variables that hold player information.
     int playerIDs[2];
     string playerFirst[2];
     string playerLast[2];
@@ -27,18 +29,19 @@ public:
     int playerTurnScoreLo[2];
     int playerGamesPlayed[2];
     int playerGamesWon[2];
-
     float playerWinPercent[2];
-
     int playerMatch180s[2];
     //int playerMatchesWon[2];
     //int playerLegsWon[2];
 
+    //Tells us which player is currently active.
     bool active;
 
+    //Slings for each player.
     QString p1Slings;
     QString p2Slings;
 
+    //DataHandler integration.
     string dataGet(string request);
 
 };

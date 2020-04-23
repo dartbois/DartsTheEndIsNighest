@@ -7,29 +7,36 @@
 #include <QDebug>
 
 using namespace std;
-
+//Constructor
 DataHandler::DataHandler()
 {
 
 }
 
+//Interfaces with SQLHandler
 string DataHandler::sqlGet(string request){
-    //playerid:variable
+    //playerid:variable is the format
+    //variables to handle our string in various stages
     char requestHandler[65] = {'\0'};
     char idHandler[10] = {'\0'};
     char varGet[50] = {'\0'};
+    //integer version of the id
     int id;
+    //response
     string answer;
 
+    //find the database and open a sqlhandler for it
     QString path = QDir::currentPath();
     path = path + QString("/DartLeague.db");
     sqlHandler mySql(path);
 
+    //parse the request to get ID and varible requested seperately
     strcpy(requestHandler, request.c_str());
     strcpy(idHandler, strtok(requestHandler, ":"));
     strcpy(varGet, strtok(NULL, "\0"));
     id = stoi(idHandler);
 
+    //figure out what variable is requested and send off for it
     if (strcmp(varGet, "playerFirst") == 0){
         answer = mySql.sqlGetFirstName(id);
     }
@@ -135,15 +142,21 @@ string DataHandler::sqlGet(string request){
 
     return answer;
 }
+
+//Interfaces with MathClass
 string DataHandler::mathcGet(string request, mathClass myM){
     //request should be score1 or score2
     string answer = myM.dataGet(request);
     return answer;
 }
+
+//Interfaces with Player
 string DataHandler::playerGet(string request, player myPlayer){
     string answer = myPlayer.dataGet(request);
     return answer;
 }
+
+//Interfaces with MatchStartData
 string DataHandler::matchstartGet(string request, MatchStartData myS){
     string answer = myS.dataGet(request);
     return answer;

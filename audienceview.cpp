@@ -4,6 +4,7 @@
 #include "datahandler.h"
 #include "player.h"
 
+//One of the two biggest windows of the project
 
 AudienceView::AudienceView(QWidget *parent) :
     QDialog(parent),

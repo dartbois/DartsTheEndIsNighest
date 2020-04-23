@@ -1,9 +1,11 @@
 #include "matchstartdata.h"
 #include "datahandler.h"
 
+//Constructor
 MatchStartData::MatchStartData(int matchID)
 {
     DataHandler myD;
+    //If no matchID given, init to all zeroes/nulls
     if (matchID == 0){
         gameName = "";
         gameDate = "";
@@ -15,6 +17,7 @@ MatchStartData::MatchStartData(int matchID)
         gamePs[1] = 0;
         gameID = 0;
     }
+    //Otherwise, pull info from the database.
     else{
         string id = to_string(matchID);
         string req;
@@ -39,6 +42,8 @@ MatchStartData::MatchStartData(int matchID)
 
 }
 
+
+//Overloaded constructor.
 MatchStartData::MatchStartData()
 {
     gameName = "";
@@ -52,6 +57,7 @@ MatchStartData::MatchStartData()
     gameID = 0;
 }
 
+//Effectively an overloaded constructor; identical to that shown above.
 void MatchStartData::postInit(int matchID){
     if (matchID == 0){
         gameName = "";
@@ -89,6 +95,7 @@ void MatchStartData::postInit(int matchID){
     return;
 }
 
+//Interfaces with dataHandler.
 string MatchStartData::dataGet(string request){
     string answer;
     if (request == "gameName"){
