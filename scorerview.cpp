@@ -545,9 +545,10 @@ void ScorerView::legWinner(bool winnerIndex) {
 
             mySql.sqlSetPlayerFinal(myP);
             mySql.sqlSetGameFinal(gameID, winnerID, sp1slings, sp2slings);
+
+            this->m_audienceWindow->hide();
+            this->hide();
         }
-        this->m_audienceWindow->hide();
-        this->hide();
     }
 }
 

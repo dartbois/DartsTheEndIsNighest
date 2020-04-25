@@ -20,6 +20,7 @@ ManageChoiceMenu::~ManageChoiceMenu()
 void ManageChoiceMenu::on_pushButton_clicked()
 {
     manageGame->show();
+    manageGame->FillGameList();
 }
 
 void ManageChoiceMenu::changeWindow()

@@ -448,7 +448,7 @@ void sqlHandler::sqlSetGameFinal(int gameID, int winnerID, string P1Slings, stri
     QString QP1Slings = QString::fromStdString(P1Slings);
     QString QP2Slings = QString::fromStdString(P2Slings);
 
-    query.prepare("UPDATE Games SET [Winner] = ?, [P1Slings] = ?, [P2Slings] = ?, [Completed] = TRUE, WHERE [Game ID] = ?");
+    query.prepare("UPDATE Games SET [Winner] = ?, [P1Slings] = ?, [P2Slings] = ?, [Completed] = TRUE WHERE [Game ID] = ?");
     query.bindValue(0, winnerID);
     query.bindValue(1, QP1Slings);
     query.bindValue(2, QP2Slings);
